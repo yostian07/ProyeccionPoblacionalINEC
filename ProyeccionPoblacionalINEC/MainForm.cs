@@ -252,6 +252,56 @@ namespace ProyeccionPoblacionalINEC.Forms
             dgvEducacion.RowHeadersVisible = false;
         }
 
+
+        private void AsignarDatosADataGridView(string descripcion, DataGridView dgv, object dataSource)
+        {
+            try
+            {
+                // Actualizar el Label para indicar qué DataGridView se está procesando
+                this.Invoke(new Action(() =>
+                {
+                    materialLabel1.Text = $"Procesando {descripcion}...";
+                }));
+
+                dgv.Invoke(new Action(() =>
+                {
+                    if (dgv == dgvEducacion)
+                    {
+                        // Ordenar la lista por GradoEscolaridad y luego por Edad
+                        var listaOrdenada = listaEscolaridadEdad
+                            .OrderBy(e => e.ValorEdad)
+                            .ThenBy(e => e.GradoEscolaridad)
+                            .ToList();
+
+                        // Agrupar los datos para que se muestren de manera agrupada como en el ejemplo visual
+                        var listaAgrupada = listaOrdenada
+                            .GroupBy(e => e.ValorEdad)
+                            .SelectMany(g => g)
+                            .ToList();
+
+                        dgv.DataSource = null;
+                        dgv.DataSource = listaAgrupada;
+                    }
+                    else
+                    {
+                        dgv.DataSource = null;
+                        dgv.DataSource = dataSource;
+                    }
+                }));
+
+                Thread.Sleep(500);
+            }
+            catch (Exception ex)
+            {
+                this.Invoke(new Action(() =>
+                {
+                    MessageBox.Show($"Error al asignar datos a {descripcion}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }));
+            }
+        }
+
+
+
         private void LeerArchivoPlano(string rutaArchivo)
         {
             try
@@ -333,37 +383,13 @@ namespace ProyeccionPoblacionalINEC.Forms
             }
         }
 
-        private void AsignarDatosADataGridView(string descripcion, DataGridView dgv, object dataSource)
-        {
-            try
-            {
-                // Actualizar el Label para indicar qué DataGridView se está procesando
-                this.Invoke(new Action(() =>
-                {
-                    materialLabel1.Text = $"Procesando {descripcion}...";
-                }));
-
-               
-                dgv.Invoke(new Action(() =>
-                {
-                    dgv.DataSource = null;
-                    dgv.DataSource = dataSource;
-                }));
-
-                
-                Thread.Sleep(500); 
-            }
-            catch (Exception ex)
-            {
-                this.Invoke(new Action(() =>
-                {
-                    MessageBox.Show($"Error al asignar datos a {descripcion}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }));
-            }
-        }
+        
 
         private void ProcesarGrupoEtario()
         {
+            // Limpiar la lista antes de agregar nuevos datos
+            listaGrupoEtario.Clear();
+
             List<string> grupos = new List<string> { "0-4", "5-9", "10-14", "15-19", "20-49", "50-59", "60+" };
 
             foreach (var grupo in grupos)
@@ -393,6 +419,7 @@ namespace ProyeccionPoblacionalINEC.Forms
             listaGrupoEtario.Insert(0, total);
         }
 
+
         private bool EstaEnGrupo(int edad, string grupo)
         {
             switch (grupo)
@@ -418,6 +445,7 @@ namespace ProyeccionPoblacionalINEC.Forms
 
         private void ProcesarEscolaridad()
         {
+            listaEscolaridadEdad.Clear();
             List<string> niveles = new List<string>
     {
         "Primaria Completa",
