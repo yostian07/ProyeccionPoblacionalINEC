@@ -83,7 +83,7 @@ namespace ProyeccionPoblacionalINEC.Forms
                     // Esperar a que la lectura se complete antes de procesar
                     await tareaLectura;
 
-                    // Crear tareas para procesar grupos etarios y escolaridad en hilos independientes
+                    // Crear tareas para procesar grupos etarios y escolaridad e
                     var tareaGrupoEtario = Task.Run(() => ProcesarGrupoEtario());
                     var tareaEscolaridad = Task.Run(() => ProcesarEscolaridad());
 
@@ -273,7 +273,7 @@ namespace ProyeccionPoblacionalINEC.Forms
                             .ThenBy(e => e.GradoEscolaridad)
                             .ToList();
 
-                        // Agrupar los datos para que se muestren de manera agrupada como en el ejemplo visual
+                       
                         var listaAgrupada = listaOrdenada
                             .GroupBy(e => e.ValorEdad)
                             .SelectMany(g => g)
@@ -444,9 +444,9 @@ namespace ProyeccionPoblacionalINEC.Forms
         }
 
         private void ProcesarEscolaridad()
-        {
-            listaEscolaridadEdad.Clear();
-            List<string> niveles = new List<string>
+{
+    listaEscolaridadEdad.Clear();
+    List<string> niveles = new List<string>
     {
         "Primaria Completa",
         "Primaria Incompleta",
@@ -457,54 +457,64 @@ namespace ProyeccionPoblacionalINEC.Forms
         "Sin Estudios"
     };
 
-            foreach (var nivel in niveles)
-            {
-                // Para cada nivel de escolaridad, obtenemos la distribución por edad
-                var distribucionPorEdad = listaEdades
-                    .Where(e => GetNivelEscolaridad(e, nivel))
-                    .Select(e => new EscolaridadEdad
-                    {
-                        GradoEscolaridad = nivel,
-                        ValorEdad = e.ValorEdad,
-                        TotalPoblacion = e.TotalPoblacion
-                    }).ToList();
-
-                listaEscolaridadEdad.AddRange(distribucionPorEdad);
-            }
-
-            // Opcional: Agregar una fila de Total si lo deseas
-            EscolaridadEdad total = new EscolaridadEdad
-            {
-                GradoEscolaridad = "Total",
-                ValorEdad = 0, // Puedes asignar un valor representativo o dejarlo como 0
-                TotalPoblacion = listaEdades.Sum(e => e.TotalPoblacion)
-            };
-
-            listaEscolaridadEdad.Insert(0, total);
-        }
-
-        private bool GetNivelEscolaridad(Edad edad, string nivel)
+    foreach (var edad in listaEdades)
+    {
+        // Crear registros para cada nivel de escolaridad
+        listaEscolaridadEdad.Add(new EscolaridadEdad
         {
-            switch (nivel)
-            {
-                case "Primaria Completa":
-                    return edad.PrimariaCompleta > 0;
-                case "Primaria Incompleta":
-                    return edad.PrimariaIncompleta > 0;
-                case "Secundaria Completa":
-                    return edad.SecundariaCompleta > 0;
-                case "Secundaria Incompleta":
-                    return edad.SecundariaIncompleta > 0;
-                case "Universitaria Completa":
-                    return edad.UniversitariaCompleta > 0;
-                case "Universitaria Incompleta":
-                    return edad.UniversitariaIncompleta > 0;
-                case "Sin Estudios":
-                    return edad.SinEstudios > 0;
-                default:
-                    return false;
-            }
-        }
+            GradoEscolaridad = "Primaria Completa",
+            ValorEdad = edad.ValorEdad,
+            TotalPoblacion = edad.PrimariaCompleta
+        });
+        listaEscolaridadEdad.Add(new EscolaridadEdad
+        {
+            GradoEscolaridad = "Primaria Incompleta",
+            ValorEdad = edad.ValorEdad,
+            TotalPoblacion = edad.PrimariaIncompleta
+        });
+        listaEscolaridadEdad.Add(new EscolaridadEdad
+        {
+            GradoEscolaridad = "Secundaria Completa",
+            ValorEdad = edad.ValorEdad,
+            TotalPoblacion = edad.SecundariaCompleta
+        });
+        listaEscolaridadEdad.Add(new EscolaridadEdad
+        {
+            GradoEscolaridad = "Secundaria Incompleta",
+            ValorEdad = edad.ValorEdad,
+            TotalPoblacion = edad.SecundariaIncompleta
+        });
+        listaEscolaridadEdad.Add(new EscolaridadEdad
+        {
+            GradoEscolaridad = "Universitaria Completa",
+            ValorEdad = edad.ValorEdad,
+            TotalPoblacion = edad.UniversitariaCompleta
+        });
+        listaEscolaridadEdad.Add(new EscolaridadEdad
+        {
+            GradoEscolaridad = "Universitaria Incompleta",
+            ValorEdad = edad.ValorEdad,
+            TotalPoblacion = edad.UniversitariaIncompleta
+        });
+        listaEscolaridadEdad.Add(new EscolaridadEdad
+        {
+            GradoEscolaridad = "Sin Estudios",
+            ValorEdad = edad.ValorEdad,
+            TotalPoblacion = edad.SinEstudios
+        });
+    }
+
+   
+    EscolaridadEdad total = new EscolaridadEdad
+    {
+        GradoEscolaridad = "Total",
+        ValorEdad = 0,
+        TotalPoblacion = listaEdades.Sum(e => e.TotalPoblacion)
+    };
+
+    listaEscolaridadEdad.Insert(0, total);
+}
+
 
 
         private void dgvEdadesSexo_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
