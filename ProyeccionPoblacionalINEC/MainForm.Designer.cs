@@ -16,7 +16,13 @@ namespace ProyeccionPoblacionalINEC.Forms
         private MaterialSkin.Controls.MaterialButton btnSalir;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelDataGrids;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelButtons;
-        private MaterialSkin.Controls.MaterialProgressBar progressBarCarga;
+        private MaterialSkin.Controls.MaterialLabel materialLabel1;
+        private MaterialSkin.Controls.MaterialProgressBar materialProgressBar1;
+
+        // Nuevos Labels para títulos
+        private System.Windows.Forms.Label lblTituloEdadesSexo;
+        private System.Windows.Forms.Label lblTituloSexoGrupoEtario;
+        private System.Windows.Forms.Label lblTituloEducacion;
 
         /// <summary>
         /// Limpiar los recursos que se estén usando.
@@ -45,10 +51,12 @@ namespace ProyeccionPoblacionalINEC.Forms
             btnCargarArchivo = new MaterialSkin.Controls.MaterialButton();
             btnSalir = new MaterialSkin.Controls.MaterialButton();
             tableLayoutPanelDataGrids = new TableLayoutPanel();
+            lblTituloEdadesSexo = new Label();
+            lblTituloSexoGrupoEtario = new Label();
+            lblTituloEducacion = new Label();
             flowLayoutPanelButtons = new FlowLayoutPanel();
             materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             materialProgressBar1 = new MaterialSkin.Controls.MaterialProgressBar();
-            progressBarCarga = new MaterialSkin.Controls.MaterialProgressBar();
             ((System.ComponentModel.ISupportInitialize)dgvEdadesSexo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvSexoGrupoEtario).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvEducacion).BeginInit();
@@ -60,9 +68,9 @@ namespace ProyeccionPoblacionalINEC.Forms
             // 
             dgvEdadesSexo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvEdadesSexo.Dock = DockStyle.Fill;
-            dgvEdadesSexo.Location = new Point(3, 3);
+            dgvEdadesSexo.Location = new Point(3, 24);
             dgvEdadesSexo.Name = "dgvEdadesSexo";
-            dgvEdadesSexo.Size = new Size(347, 430);
+            dgvEdadesSexo.Size = new Size(334, 487);
             dgvEdadesSexo.TabIndex = 0;
             dgvEdadesSexo.DataBindingComplete += dgvEdadesSexo_DataBindingComplete;
             // 
@@ -70,9 +78,9 @@ namespace ProyeccionPoblacionalINEC.Forms
             // 
             dgvSexoGrupoEtario.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvSexoGrupoEtario.Dock = DockStyle.Fill;
-            dgvSexoGrupoEtario.Location = new Point(356, 3);
+            dgvSexoGrupoEtario.Location = new Point(343, 24);
             dgvSexoGrupoEtario.Name = "dgvSexoGrupoEtario";
-            dgvSexoGrupoEtario.Size = new Size(347, 430);
+            dgvSexoGrupoEtario.Size = new Size(334, 487);
             dgvSexoGrupoEtario.TabIndex = 1;
             dgvSexoGrupoEtario.DataBindingComplete += dgvSexoGrupoEtario_DataBindingComplete;
             // 
@@ -80,9 +88,9 @@ namespace ProyeccionPoblacionalINEC.Forms
             // 
             dgvEducacion.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvEducacion.Dock = DockStyle.Fill;
-            dgvEducacion.Location = new Point(709, 3);
+            dgvEducacion.Location = new Point(683, 24);
             dgvEducacion.Name = "dgvEducacion";
-            dgvEducacion.Size = new Size(348, 430);
+            dgvEducacion.Size = new Size(336, 487);
             dgvEducacion.TabIndex = 2;
             dgvEducacion.DataBindingComplete += dgvEducacion_DataBindingComplete;
             // 
@@ -93,7 +101,7 @@ namespace ProyeccionPoblacionalINEC.Forms
             btnCargarArchivo.Depth = 0;
             btnCargarArchivo.HighEmphasis = true;
             btnCargarArchivo.Icon = null;
-            btnCargarArchivo.Location = new Point(888, 10);
+            btnCargarArchivo.Location = new Point(850, 10);
             btnCargarArchivo.Margin = new Padding(9, 5, 9, 5);
             btnCargarArchivo.MouseState = MaterialSkin.MouseState.HOVER;
             btnCargarArchivo.Name = "btnCargarArchivo";
@@ -112,7 +120,7 @@ namespace ProyeccionPoblacionalINEC.Forms
             btnSalir.Depth = 0;
             btnSalir.HighEmphasis = true;
             btnSalir.Icon = null;
-            btnSalir.Location = new Point(806, 10);
+            btnSalir.Location = new Point(768, 10);
             btnSalir.Margin = new Padding(9, 5, 9, 5);
             btnSalir.MouseState = MaterialSkin.MouseState.HOVER;
             btnSalir.Name = "btnSalir";
@@ -130,16 +138,54 @@ namespace ProyeccionPoblacionalINEC.Forms
             tableLayoutPanelDataGrids.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33333F));
             tableLayoutPanelDataGrids.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33334F));
             tableLayoutPanelDataGrids.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33334F));
-            tableLayoutPanelDataGrids.Controls.Add(dgvEdadesSexo, 0, 0);
-            tableLayoutPanelDataGrids.Controls.Add(dgvSexoGrupoEtario, 1, 0);
-            tableLayoutPanelDataGrids.Controls.Add(dgvEducacion, 2, 0);
+            tableLayoutPanelDataGrids.Controls.Add(lblTituloEdadesSexo, 0, 0);
+            tableLayoutPanelDataGrids.Controls.Add(lblTituloSexoGrupoEtario, 1, 0);
+            tableLayoutPanelDataGrids.Controls.Add(dgvEdadesSexo, 0, 1);
+            tableLayoutPanelDataGrids.Controls.Add(dgvSexoGrupoEtario, 1, 1);
+            tableLayoutPanelDataGrids.Controls.Add(dgvEducacion, 2, 1);
+            tableLayoutPanelDataGrids.Controls.Add(lblTituloEducacion, 2, 0);
             tableLayoutPanelDataGrids.Dock = DockStyle.Fill;
             tableLayoutPanelDataGrids.Location = new Point(3, 60);
             tableLayoutPanelDataGrids.Name = "tableLayoutPanelDataGrids";
-            tableLayoutPanelDataGrids.RowCount = 1;
+            tableLayoutPanelDataGrids.Padding = new Padding(0, 4, 0, 0);
+            tableLayoutPanelDataGrids.RowCount = 2;
+            tableLayoutPanelDataGrids.RowStyles.Add(new RowStyle(SizeType.Absolute, 21F));
             tableLayoutPanelDataGrids.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanelDataGrids.Size = new Size(1060, 436);
+            tableLayoutPanelDataGrids.Size = new Size(1022, 514);
             tableLayoutPanelDataGrids.TabIndex = 5;
+            // 
+            // lblTituloEdadesSexo
+            // 
+            lblTituloEdadesSexo.AutoSize = true;
+            lblTituloEdadesSexo.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblTituloEdadesSexo.Location = new Point(3, 0);
+            lblTituloEdadesSexo.Name = "lblTituloEdadesSexo";
+            lblTituloEdadesSexo.Size = new Size(121, 19);
+            lblTituloEdadesSexo.TabIndex = 6;
+            lblTituloEdadesSexo.Text = "Edades por Sexo";
+            lblTituloEdadesSexo.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblTituloSexoGrupoEtario
+            // 
+            lblTituloSexoGrupoEtario.AutoSize = true;
+            lblTituloSexoGrupoEtario.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblTituloSexoGrupoEtario.Location = new Point(343, 0);
+            lblTituloSexoGrupoEtario.Name = "lblTituloSexoGrupoEtario";
+            lblTituloSexoGrupoEtario.Size = new Size(143, 19);
+            lblTituloSexoGrupoEtario.TabIndex = 7;
+            lblTituloSexoGrupoEtario.Text = "Sexo y Grupo Etario";
+            lblTituloSexoGrupoEtario.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblTituloEducacion
+            // 
+            lblTituloEducacion.AutoSize = true;
+            lblTituloEducacion.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblTituloEducacion.Location = new Point(683, 0);
+            lblTituloEducacion.Name = "lblTituloEducacion";
+            lblTituloEducacion.Size = new Size(140, 19);
+            lblTituloEducacion.TabIndex = 8;
+            lblTituloEducacion.Text = "Distribución Escolar";
+            lblTituloEducacion.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // flowLayoutPanelButtons
             // 
@@ -151,10 +197,10 @@ namespace ProyeccionPoblacionalINEC.Forms
             flowLayoutPanelButtons.Controls.Add(materialProgressBar1);
             flowLayoutPanelButtons.Dock = DockStyle.Bottom;
             flowLayoutPanelButtons.FlowDirection = FlowDirection.RightToLeft;
-            flowLayoutPanelButtons.Location = new Point(3, 496);
+            flowLayoutPanelButtons.Location = new Point(3, 574);
             flowLayoutPanelButtons.Name = "flowLayoutPanelButtons";
             flowLayoutPanelButtons.Padding = new Padding(0, 5, 18, 5);
-            flowLayoutPanelButtons.Size = new Size(1060, 67);
+            flowLayoutPanelButtons.Size = new Size(1022, 56);
             flowLayoutPanelButtons.TabIndex = 6;
             // 
             // materialLabel1
@@ -162,41 +208,31 @@ namespace ProyeccionPoblacionalINEC.Forms
             materialLabel1.AutoSize = true;
             materialLabel1.Depth = 0;
             materialLabel1.Font = new Font("Roboto", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
-            materialLabel1.Location = new Point(714, 5);
+            materialLabel1.Location = new Point(615, 5);
             materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
             materialLabel1.Name = "materialLabel1";
-            materialLabel1.Size = new Size(80, 19);
+            materialLabel1.Size = new Size(141, 19);
             materialLabel1.TabIndex = 6;
-            materialLabel1.Text = "Prcesando ";
+            materialLabel1.Text = "Procesando datos...";
             materialLabel1.Visible = false;
             // 
             // materialProgressBar1
             // 
             materialProgressBar1.Depth = 0;
-            materialProgressBar1.Location = new Point(260, 54);
+            materialProgressBar1.Location = new Point(217, 8);
             materialProgressBar1.MouseState = MaterialSkin.MouseState.HOVER;
             materialProgressBar1.Name = "materialProgressBar1";
-            materialProgressBar1.Size = new Size(779, 5);
+            materialProgressBar1.Size = new Size(392, 5);
             materialProgressBar1.TabIndex = 5;
             materialProgressBar1.Visible = false;
-            // 
-            // progressBarCarga
-            // 
-            progressBarCarga.Depth = 0;
-            progressBarCarga.Location = new Point(0, 0);
-            progressBarCarga.MouseState = MaterialSkin.MouseState.HOVER;
-            progressBarCarga.Name = "progressBarCarga";
-            progressBarCarga.Size = new Size(100, 23);
-            progressBarCarga.TabIndex = 7;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1066, 566);
+            ClientSize = new Size(1028, 633);
             Controls.Add(tableLayoutPanelDataGrids);
             Controls.Add(flowLayoutPanelButtons);
-            Controls.Add(progressBarCarga);
             Name = "MainForm";
             Padding = new Padding(3, 60, 3, 3);
             Text = "Proyección Poblacional INEC";
@@ -204,6 +240,7 @@ namespace ProyeccionPoblacionalINEC.Forms
             ((System.ComponentModel.ISupportInitialize)dgvSexoGrupoEtario).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvEducacion).EndInit();
             tableLayoutPanelDataGrids.ResumeLayout(false);
+            tableLayoutPanelDataGrids.PerformLayout();
             flowLayoutPanelButtons.ResumeLayout(false);
             flowLayoutPanelButtons.PerformLayout();
             ResumeLayout(false);
@@ -211,8 +248,5 @@ namespace ProyeccionPoblacionalINEC.Forms
         }
 
         #endregion
-
-        private MaterialSkin.Controls.MaterialProgressBar materialProgressBar1;
-        private MaterialSkin.Controls.MaterialLabel materialLabel1;
     }
 }

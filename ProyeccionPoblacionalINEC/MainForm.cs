@@ -258,7 +258,7 @@ namespace ProyeccionPoblacionalINEC.Forms
                         }
                         catch (FormatException fe)
                         {
-                            // Manejo de errores de formato
+                           
                             this.Invoke(new Action(() =>
                             {
                                 MessageBox.Show($"Error de formato en la línea: {linea}\nDetalle: {fe.Message}", "Error de Formato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -274,7 +274,7 @@ namespace ProyeccionPoblacionalINEC.Forms
                             materialProgressBar1.Value = progress <= 100 ? progress : 100;
                         }));
 
-                        // Introducir una pausa de 50 milisegundos para ralentizar la barra de progreso
+                      
                         Thread.Sleep(50);
                     }
                 }
@@ -283,7 +283,7 @@ namespace ProyeccionPoblacionalINEC.Forms
                 ProcesarGrupoEtario();
                 ProcesarEscolaridad();
 
-                // Asignar las fuentes de datos a los DataGridView con actualización del Label
+                // Asignar las fuentes de datos a los DataGridView
                 AsignarDatosADataGridView("Edades por Sexo", dgvEdadesSexo, listaEdades.OrderBy(e => e.ValorEdad).ToList());
                 AsignarDatosADataGridView("Sexo y Grupo Etario", dgvSexoGrupoEtario, listaGrupoEtario.OrderBy(g => g.Grupo).ToList());
                 AsignarDatosADataGridView("Distribución por Escolaridad", dgvEducacion, listaEscolaridad.OrderBy(e => e.GradoEscolaridad).ToList());
@@ -307,15 +307,15 @@ namespace ProyeccionPoblacionalINEC.Forms
                     materialLabel1.Text = $"Procesando {descripcion}...";
                 }));
 
-                // Asignar la fuente de datos en el hilo principal
+               
                 dgv.Invoke(new Action(() =>
                 {
                     dgv.DataSource = null;
                     dgv.DataSource = dataSource;
                 }));
 
-                // Introducir una pausa para ralentizar el proceso
-                Thread.Sleep(500); // Pausa de 500 ms
+                
+                Thread.Sleep(500); 
             }
             catch (Exception ex)
             {
@@ -467,8 +467,7 @@ namespace ProyeccionPoblacionalINEC.Forms
                 }
                 else
                 {
-                    // Opcional: Manejar el caso donde la columna no existe
-                    // Por ejemplo, registrar un error o ignorar
+            
                 }
             }
 
