@@ -68,9 +68,9 @@ namespace ProyeccionPoblacionalINEC.Forms
             // 
             dgvEdadesSexo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvEdadesSexo.Dock = DockStyle.Fill;
-            dgvEdadesSexo.Location = new Point(3, 24);
+            dgvEdadesSexo.Location = new Point(3, 28);
             dgvEdadesSexo.Name = "dgvEdadesSexo";
-            dgvEdadesSexo.Size = new Size(334, 487);
+            dgvEdadesSexo.Size = new Size(393, 519);
             dgvEdadesSexo.TabIndex = 0;
             dgvEdadesSexo.DataBindingComplete += dgvEdadesSexo_DataBindingComplete;
             // 
@@ -78,9 +78,9 @@ namespace ProyeccionPoblacionalINEC.Forms
             // 
             dgvSexoGrupoEtario.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvSexoGrupoEtario.Dock = DockStyle.Fill;
-            dgvSexoGrupoEtario.Location = new Point(343, 24);
+            dgvSexoGrupoEtario.Location = new Point(402, 28);
             dgvSexoGrupoEtario.Name = "dgvSexoGrupoEtario";
-            dgvSexoGrupoEtario.Size = new Size(334, 487);
+            dgvSexoGrupoEtario.Size = new Size(393, 519);
             dgvSexoGrupoEtario.TabIndex = 1;
             dgvSexoGrupoEtario.DataBindingComplete += dgvSexoGrupoEtario_DataBindingComplete;
             // 
@@ -88,9 +88,9 @@ namespace ProyeccionPoblacionalINEC.Forms
             // 
             dgvEducacion.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvEducacion.Dock = DockStyle.Fill;
-            dgvEducacion.Location = new Point(683, 24);
+            dgvEducacion.Location = new Point(801, 28);
             dgvEducacion.Name = "dgvEducacion";
-            dgvEducacion.Size = new Size(336, 487);
+            dgvEducacion.Size = new Size(394, 519);
             dgvEducacion.TabIndex = 2;
             dgvEducacion.DataBindingComplete += dgvEducacion_DataBindingComplete;
             // 
@@ -101,7 +101,7 @@ namespace ProyeccionPoblacionalINEC.Forms
             btnCargarArchivo.Depth = 0;
             btnCargarArchivo.HighEmphasis = true;
             btnCargarArchivo.Icon = null;
-            btnCargarArchivo.Location = new Point(850, 10);
+            btnCargarArchivo.Location = new Point(1026, 10);
             btnCargarArchivo.Margin = new Padding(9, 5, 9, 5);
             btnCargarArchivo.MouseState = MaterialSkin.MouseState.HOVER;
             btnCargarArchivo.Name = "btnCargarArchivo";
@@ -120,7 +120,7 @@ namespace ProyeccionPoblacionalINEC.Forms
             btnSalir.Depth = 0;
             btnSalir.HighEmphasis = true;
             btnSalir.Icon = null;
-            btnSalir.Location = new Point(768, 10);
+            btnSalir.Location = new Point(944, 10);
             btnSalir.Margin = new Padding(9, 5, 9, 5);
             btnSalir.MouseState = MaterialSkin.MouseState.HOVER;
             btnSalir.Name = "btnSalir";
@@ -151,14 +151,14 @@ namespace ProyeccionPoblacionalINEC.Forms
             tableLayoutPanelDataGrids.RowCount = 2;
             tableLayoutPanelDataGrids.RowStyles.Add(new RowStyle(SizeType.Absolute, 21F));
             tableLayoutPanelDataGrids.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanelDataGrids.Size = new Size(1022, 514);
+            tableLayoutPanelDataGrids.Size = new Size(1198, 550);
             tableLayoutPanelDataGrids.TabIndex = 5;
             // 
             // lblTituloEdadesSexo
             // 
             lblTituloEdadesSexo.AutoSize = true;
             lblTituloEdadesSexo.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblTituloEdadesSexo.Location = new Point(3, 0);
+            lblTituloEdadesSexo.Location = new Point(3, 4);
             lblTituloEdadesSexo.Name = "lblTituloEdadesSexo";
             lblTituloEdadesSexo.Size = new Size(121, 19);
             lblTituloEdadesSexo.TabIndex = 6;
@@ -169,7 +169,7 @@ namespace ProyeccionPoblacionalINEC.Forms
             // 
             lblTituloSexoGrupoEtario.AutoSize = true;
             lblTituloSexoGrupoEtario.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblTituloSexoGrupoEtario.Location = new Point(343, 0);
+            lblTituloSexoGrupoEtario.Location = new Point(402, 4);
             lblTituloSexoGrupoEtario.Name = "lblTituloSexoGrupoEtario";
             lblTituloSexoGrupoEtario.Size = new Size(143, 19);
             lblTituloSexoGrupoEtario.TabIndex = 7;
@@ -180,7 +180,7 @@ namespace ProyeccionPoblacionalINEC.Forms
             // 
             lblTituloEducacion.AutoSize = true;
             lblTituloEducacion.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblTituloEducacion.Location = new Point(683, 0);
+            lblTituloEducacion.Location = new Point(801, 4);
             lblTituloEducacion.Name = "lblTituloEducacion";
             lblTituloEducacion.Size = new Size(140, 19);
             lblTituloEducacion.TabIndex = 8;
@@ -197,10 +197,10 @@ namespace ProyeccionPoblacionalINEC.Forms
             flowLayoutPanelButtons.Controls.Add(materialProgressBar1);
             flowLayoutPanelButtons.Dock = DockStyle.Bottom;
             flowLayoutPanelButtons.FlowDirection = FlowDirection.RightToLeft;
-            flowLayoutPanelButtons.Location = new Point(3, 574);
+            flowLayoutPanelButtons.Location = new Point(3, 610);
             flowLayoutPanelButtons.Name = "flowLayoutPanelButtons";
             flowLayoutPanelButtons.Padding = new Padding(0, 5, 18, 5);
-            flowLayoutPanelButtons.Size = new Size(1022, 56);
+            flowLayoutPanelButtons.Size = new Size(1198, 56);
             flowLayoutPanelButtons.TabIndex = 6;
             // 
             // materialLabel1
@@ -208,7 +208,7 @@ namespace ProyeccionPoblacionalINEC.Forms
             materialLabel1.AutoSize = true;
             materialLabel1.Depth = 0;
             materialLabel1.Font = new Font("Roboto", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
-            materialLabel1.Location = new Point(615, 5);
+            materialLabel1.Location = new Point(791, 5);
             materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
             materialLabel1.Name = "materialLabel1";
             materialLabel1.Size = new Size(141, 19);
@@ -219,7 +219,7 @@ namespace ProyeccionPoblacionalINEC.Forms
             // materialProgressBar1
             // 
             materialProgressBar1.Depth = 0;
-            materialProgressBar1.Location = new Point(217, 8);
+            materialProgressBar1.Location = new Point(393, 8);
             materialProgressBar1.MouseState = MaterialSkin.MouseState.HOVER;
             materialProgressBar1.Name = "materialProgressBar1";
             materialProgressBar1.Size = new Size(392, 5);
@@ -230,7 +230,7 @@ namespace ProyeccionPoblacionalINEC.Forms
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1028, 633);
+            ClientSize = new Size(1204, 669);
             Controls.Add(tableLayoutPanelDataGrids);
             Controls.Add(flowLayoutPanelButtons);
             Name = "MainForm";

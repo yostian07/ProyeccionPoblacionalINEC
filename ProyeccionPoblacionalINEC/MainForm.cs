@@ -18,7 +18,8 @@ namespace ProyeccionPoblacionalINEC.Forms
         private readonly MaterialSkinManager materialSkinManager;
         private List<Edad> listaEdades = new List<Edad>();
         private List<GrupoEtario> listaGrupoEtario = new List<GrupoEtario>();
-        private List<Escolaridad> listaEscolaridad = new List<Escolaridad>();
+        private List<EscolaridadEdad> listaEscolaridadEdad = new List<EscolaridadEdad>();
+
 
         public MainForm()
         {
@@ -76,8 +77,23 @@ namespace ProyeccionPoblacionalINEC.Forms
                         materialProgressBar1.Value = 0;
                     }));
 
-                    // Ejecutar la lectura del archivo en una tarea separada para evitar bloquear la interfaz
-                    await Task.Run(() => LeerArchivoPlano(rutaArchivo));
+                    // Tarea para leer el archivo y cargar en dgvEdadesSexo
+                    var tareaLectura = Task.Run(() => LeerArchivoPlano(rutaArchivo));
+
+                    // Esperar a que la lectura se complete antes de procesar
+                    await tareaLectura;
+
+                    // Crear tareas para procesar grupos etarios y escolaridad en hilos independientes
+                    var tareaGrupoEtario = Task.Run(() => ProcesarGrupoEtario());
+                    var tareaEscolaridad = Task.Run(() => ProcesarEscolaridad());
+
+                    // Esperar a que todas las tareas se completen
+                    await Task.WhenAll(tareaGrupoEtario, tareaEscolaridad);
+
+                    // Asignar los datos a los DataGridViews
+                    AsignarDatosADataGridView("Edades por Sexo", dgvEdadesSexo, listaEdades.OrderBy(e => e.ValorEdad).ToList());
+                    AsignarDatosADataGridView("Sexo y Grupo Etario", dgvSexoGrupoEtario, listaGrupoEtario.OrderBy(g => g.Grupo).ToList());
+                    AsignarDatosADataGridView("Distribución por Escolaridad y Edad", dgvEducacion, listaEscolaridadEdad.OrderBy(e => e.GradoEscolaridad).ThenBy(e => e.ValorEdad).ToList());
 
                     // Completar la barra de progreso y actualizar el mensaje
                     this.Invoke(new Action(() =>
@@ -86,8 +102,15 @@ namespace ProyeccionPoblacionalINEC.Forms
                         materialLabel1.Text = "Procesamiento completado.";
                     }));
 
-                    // Opcional: Mostrar un breve retraso para visualizar el progreso completo
+                   
                     await Task.Delay(500);
+                }
+                catch (Exception ex)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        MessageBox.Show($"Error al procesar el archivo: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }));
                 }
                 finally
                 {
@@ -104,6 +127,7 @@ namespace ProyeccionPoblacionalINEC.Forms
                 }
             }
         }
+
 
         private void ConfigurarDataGridViews()
         {
@@ -191,6 +215,16 @@ namespace ProyeccionPoblacionalINEC.Forms
             dgvEducacion.AutoGenerateColumns = false;
             dgvEducacion.Columns.Clear();
 
+
+
+            dgvEducacion.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "ValorEdad",
+                HeaderText = "Edad",
+                DataPropertyName = "ValorEdad",
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            });
+
             dgvEducacion.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "GradoEscolaridad",
@@ -198,6 +232,8 @@ namespace ProyeccionPoblacionalINEC.Forms
                 DataPropertyName = "GradoEscolaridad",
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
             });
+           
+
 
             dgvEducacion.Columns.Add(new DataGridViewTextBoxColumn
             {
@@ -222,7 +258,7 @@ namespace ProyeccionPoblacionalINEC.Forms
             {
                 listaEdades.Clear();
                 listaGrupoEtario.Clear();
-                listaEscolaridad.Clear();
+                listaEscolaridadEdad.Clear();
 
                 var allLines = File.ReadAllLines(rutaArchivo);
                 int totalLines = allLines.Length;
@@ -286,7 +322,7 @@ namespace ProyeccionPoblacionalINEC.Forms
                 // Asignar las fuentes de datos a los DataGridView
                 AsignarDatosADataGridView("Edades por Sexo", dgvEdadesSexo, listaEdades.OrderBy(e => e.ValorEdad).ToList());
                 AsignarDatosADataGridView("Sexo y Grupo Etario", dgvSexoGrupoEtario, listaGrupoEtario.OrderBy(g => g.Grupo).ToList());
-                AsignarDatosADataGridView("Distribución por Escolaridad", dgvEducacion, listaEscolaridad.OrderBy(e => e.GradoEscolaridad).ToList());
+                AsignarDatosADataGridView("Distribución por Escolaridad", dgvEducacion, listaEscolaridadEdad.OrderBy(e => e.GradoEscolaridad).ToList());
             }
             catch (Exception ex)
             {
@@ -383,50 +419,65 @@ namespace ProyeccionPoblacionalINEC.Forms
         private void ProcesarEscolaridad()
         {
             List<string> niveles = new List<string>
-            {
-                "Primaria Completa",
-                "Primaria Incompleta",
-                "Secundaria Completa",
-                "Secundaria Incompleta",
-                "Universitaria Completa",
-                "Universitaria Incompleta",
-                "Sin Estudios"
-            };
+    {
+        "Primaria Completa",
+        "Primaria Incompleta",
+        "Secundaria Completa",
+        "Secundaria Incompleta",
+        "Universitaria Completa",
+        "Universitaria Incompleta",
+        "Sin Estudios"
+    };
 
             foreach (var nivel in niveles)
             {
-                Escolaridad escolaridad = new Escolaridad
-                {
-                    GradoEscolaridad = nivel,
-                    TotalPoblacion = listaEdades.Sum(e => GetTotalPorNivel(e, nivel))
-                };
+                // Para cada nivel de escolaridad, obtenemos la distribución por edad
+                var distribucionPorEdad = listaEdades
+                    .Where(e => GetNivelEscolaridad(e, nivel))
+                    .Select(e => new EscolaridadEdad
+                    {
+                        GradoEscolaridad = nivel,
+                        ValorEdad = e.ValorEdad,
+                        TotalPoblacion = e.TotalPoblacion
+                    }).ToList();
 
-                listaEscolaridad.Add(escolaridad);
+                listaEscolaridadEdad.AddRange(distribucionPorEdad);
             }
+
+            // Opcional: Agregar una fila de Total si lo deseas
+            EscolaridadEdad total = new EscolaridadEdad
+            {
+                GradoEscolaridad = "Total",
+                ValorEdad = 0, // Puedes asignar un valor representativo o dejarlo como 0
+                TotalPoblacion = listaEdades.Sum(e => e.TotalPoblacion)
+            };
+
+            listaEscolaridadEdad.Insert(0, total);
         }
 
-        private int GetTotalPorNivel(Edad edad, string nivel)
+        private bool GetNivelEscolaridad(Edad edad, string nivel)
         {
             switch (nivel)
             {
                 case "Primaria Completa":
-                    return edad.PrimariaCompleta;
+                    return edad.PrimariaCompleta > 0;
                 case "Primaria Incompleta":
-                    return edad.PrimariaIncompleta;
+                    return edad.PrimariaIncompleta > 0;
                 case "Secundaria Completa":
-                    return edad.SecundariaCompleta;
+                    return edad.SecundariaCompleta > 0;
                 case "Secundaria Incompleta":
-                    return edad.SecundariaIncompleta;
+                    return edad.SecundariaIncompleta > 0;
                 case "Universitaria Completa":
-                    return edad.UniversitariaCompleta;
+                    return edad.UniversitariaCompleta > 0;
                 case "Universitaria Incompleta":
-                    return edad.UniversitariaIncompleta;
+                    return edad.UniversitariaIncompleta > 0;
                 case "Sin Estudios":
-                    return edad.SinEstudios;
+                    return edad.SinEstudios > 0;
                 default:
-                    return 0;
+                    return false;
             }
         }
+
 
         private void dgvEdadesSexo_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
